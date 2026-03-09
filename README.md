@@ -8,6 +8,7 @@ A lightweight browser-based app for the workflow:
 - Generate a bilingual (中文 / English) outline draft from all notes and highlights
 - Keep editing generated draft inside the app
 - Switch between Night (deep blue), Day (white), and Eye Care (beige) modes
+- Resize the three panels by dragging splitters, and collapse/expand each panel
 
 ## Run
 
@@ -36,7 +37,11 @@ Then open `http://localhost:4173`.
    - Day mode (white)
    - Eye Care mode (beige)
 
-4. **Outline / AI workspace (right panel)**
+4. **Adjustable layout**
+   - Drag vertical splitters to resize left/center/right panels
+   - Collapse and restore each panel from its header button
+
+5. **Outline / AI workspace (right panel)**
    - Aggregated highlights across all documents in active workspace
    - Cross-document notes list
    - One-click draft generation in Chinese or English
@@ -44,4 +49,7 @@ Then open `http://localhost:4173`.
 
 ## Data persistence
 
-All data is persisted in browser `localStorage` key `ai_reader_workspace_v1`.
+All data is persisted in browser `localStorage` keys:
+- `ai_reader_workspace_v1` for workspace and document data
+- `ai_reader_theme_v1` for theme mode
+- `ai_reader_layout_v1` for panel widths and collapsed states
