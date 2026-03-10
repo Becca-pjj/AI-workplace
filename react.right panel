@@ -1,0 +1,28 @@
+type Props = {
+  highlights: string[];
+  notes: string[];
+  draft: string;
+  onGenerate: (lang: 'zh' | 'en') => void;
+  onUpdateDraft: (draft: string) => void;
+  onAddQuickNote: (note: string) => void;
+};
+
+export function RightPanel({ highlights, notes, draft, onGenerate, onUpdateDraft, onAddQuickNote }: Props) {
+  return (
+    <section className="panel">
+      <div className="panel-header"><h2>Outline / AI Workspace</h2></div>
+      <div className="controls">
+        <button id="genZhBtn" onClick={() => onGenerate('zh')}>Generate ZH</button>
+        <button id="genEnBtn" onClick={() => onGenerate('en')}>Generate EN</button>
+        <textarea id="quickNoteInput" rows={2} placeholder="Quick note" />
+        <button id="saveQuickNote" onClick={() => onAddQuickNote((document.querySelector('#quickNoteInput') as HTMLTextAreaElement).value)}>Save Quick Note</button>
+      </div>
+      <h3>Highlights</h3>
+      <ul>{highlights.map((h, i) => <li key={i}>{h}</li>)}</ul>
+      <h3>Notes</h3>
+      <ul>{notes.map((n, i) => <li key={i}>{n}</li>)}</ul>
+      <h3>Draft</h3>
+      <textarea id="draftEditor" rows={12} value={draft} onChange={(e) => onUpdateDraft(e.target.value)} />
+    </section>
+  );
+}
