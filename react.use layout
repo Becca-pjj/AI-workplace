@@ -1,0 +1,40 @@
+import { useEffect, useMemo, useState } from 'react';
+import { computePanelWidths } from '../lib/core';
+
+const LAYOUT_KEY = 'ai_reader_layout_v1';
+
+export function useLayout() {
+  const [weights, setWeights] = useState({ left: 1, center: 1.2, right: 1 });
+  const [collapsed, setCollapsed] = useState({ left: false, center: false, right: false });
+  const [containerWidth, setContainerWidth] = useState(1400);
+
+  useEffect(() => {
+    const raw = localStorage.getItem(LAYOUT_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.weights) setWeights(parsed.weights);
+      if (parsed.collapsed) setCollapsed(parsed.collapsed);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(LAYOUT_KEY, JSON.stringify({ weights, collapsed }));
+  }, [weights, collapsed]);
+
+  useEffect(() => {
+    const onResize = () => setContainerWidth(window.innerWidth - 26);
+    onResize();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  const layout = useMemo(() => computePanelWidths(containerWidth, weights, collapsed), [containerWidth, weights, collapsed]);
+
+  const toggle = (key: 'left' | 'center' | 'right') => {
+    const next = { ...collapsed, [key]: !collapsed[key] };
+    if (Object.values(next).every(Boolean)) return;
+    setCollapsed(next);
+  };
+
+  return { layout, weights, setWeights, collapsed: layout.collapsed, toggle };
+}
