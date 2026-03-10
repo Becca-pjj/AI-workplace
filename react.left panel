@@ -1,0 +1,54 @@
+import type { Workspace } from '../types/models';
+
+type Props = {
+  workspaces: Workspace[];
+  activeWorkspaceId: string | null;
+  activeDocId: string | null;
+  onSelectWorkspace: (id: string) => void;
+  onSelectDoc: (wsId: string, docId: string) => void;
+  onCreateWorkspace: (name: string) => void;
+  onAddDoc: (title: string, content: string) => void;
+};
+
+export function LeftPanel(props: Props) {
+  return (
+    <section className="panel">
+      <div className="panel-header"><h2>Workspace & Documents</h2></div>
+      <WorkspaceControls onCreate={props.onCreateWorkspace} onAddDoc={props.onAddDoc} />
+      <ul className="workspace-list">
+        {props.workspaces.map((ws) => (
+          <li key={ws.id}>
+            <button className={ws.id === props.activeWorkspaceId ? 'active' : ''} onClick={() => props.onSelectWorkspace(ws.id)}>{ws.name}</button>
+            <ul>
+              {ws.docs.map((d) => (
+                <li key={d.id}>
+                  <button className={d.id === props.activeDocId ? 'active' : ''} onClick={() => props.onSelectDoc(ws.id, d.id)}>{d.title}</button>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function WorkspaceControls({ onCreate, onAddDoc }: { onCreate: (name: string) => void; onAddDoc: (title: string, content: string) => void }) {
+  return (
+    <div className="controls">
+      <input id="wsNameInput" placeholder="Workspace name" onKeyDown={(e) => e.key === 'Enter' && onCreate((e.target as HTMLInputElement).value)} />
+      <button id="createWsBtn" onClick={() => {
+        const el = document.querySelector('#wsNameInput') as HTMLInputElement;
+        onCreate(el.value);
+        el.value = '';
+      }}>Create</button>
+      <input id="docTitleInput" placeholder="Document title" />
+      <textarea id="docContentInput" rows={5} placeholder="Paste text..." />
+      <button id="addDocBtn" onClick={() => {
+        const title = (document.querySelector('#docTitleInput') as HTMLInputElement).value;
+        const content = (document.querySelector('#docContentInput') as HTMLTextAreaElement).value;
+        onAddDoc(title, content);
+      }}>Add Document</button>
+    </div>
+  );
+}
