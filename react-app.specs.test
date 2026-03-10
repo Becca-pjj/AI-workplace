@@ -1,0 +1,15 @@
+import { test, expect } from '@playwright/test';
+
+test('3-pane core workflow smoke', async ({ page }) => {
+  await page.goto('/');
+  await page.fill('#wsNameInput', 'Research WS');
+  await page.click('#createWsBtn');
+  await page.fill('#docTitleInput', 'Doc A');
+  await page.fill('#docContentInput', 'This is a test paragraph for AI workspace.');
+  await page.click('#addDocBtn');
+  await page.click('#genEnBtn');
+  await expect(page.locator('#draftEditor')).toContainText('Working Title');
+  await page.click('#toggleRight');
+  await page.click('#toggleRight');
+  await expect(page.locator('h2')).toContainText(['Workspace & Documents','Reader','Outline / AI Workspace']);
+});
