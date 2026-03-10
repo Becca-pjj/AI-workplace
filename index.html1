@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Research Workspace Reader</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>AI Research Workspace / Document Intelligence Workspace</h1>
+      <p>Read, annotate, organize, and generate bilingual outline drafts across documents.</p>
+      <div class="theme-switcher-wrap">
+        <label for="themeMode">Theme Mode</label>
+        <select id="themeMode" aria-label="Theme mode selector">
+          <option value="night">Night (Deep Blue)</option>
+          <option value="day">Day (White)</option>
+          <option value="eye">Eye Care (Beige)</option>
+        </select>
+      </div>
+    </header>
+
+    <main class="app-layout" id="appLayout">
+      <section class="panel panel-left" data-panel="left">
+        <div class="panel-header">
+          <div class="panel-title-row">
+            <h2>Workspace & Documents</h2>
+            <button id="toggleLeftPanelBtn" class="panel-toggle-btn" title="Collapse / expand left panel">⇤</button>
+          </div>
+          <div class="toolbar-row">
+            <input id="workspaceName" placeholder="Workspace name" />
+            <button id="createWorkspaceBtn">Create</button>
+          </div>
+        </div>
+
+        <div class="workspace-list-wrap">
+          <ul id="workspaceList" class="workspace-list"></ul>
+        </div>
+
+        <div class="uploader">
+          <h3>Add Document</h3>
+          <input id="docTitle" placeholder="Document title" />
+          <textarea id="docContent" rows="6" placeholder="Paste article/report text here..."></textarea>
+          <button id="addDocBtn">Add to Current Workspace</button>
+        </div>
+      </section>
+
+      <div class="splitter" data-left="left" data-right="center" role="separator" aria-label="Resize left and center panel"></div>
+
+      <section class="panel panel-center" data-panel="center">
+        <div class="panel-header">
+          <div class="panel-title-row">
+            <h2>Reader</h2>
+            <button id="toggleCenterPanelBtn" class="panel-toggle-btn" title="Collapse / expand center panel">⇵</button>
+          </div>
+          <p id="activeDocLabel">No document selected</p>
+        </div>
+
+        <div id="reader" class="reader" contenteditable="true"></div>
+
+        <div class="reader-controls">
+          <button id="highlightSelectionBtn">Highlight Selection</button>
+          <button id="addSelectionNoteBtn">Add Selection Note → Outline</button>
+          <textarea id="quickNote" rows="3" placeholder="Quick note for current doc / cross-doc outline..."></textarea>
+          <button id="saveQuickNoteBtn">Save Quick Note → Outline</button>
+        </div>
+      </section>
+
+      <div class="splitter" data-left="center" data-right="right" role="separator" aria-label="Resize center and right panel"></div>
+
+      <section class="panel panel-right" data-panel="right">
+        <div class="panel-header">
+          <div class="panel-title-row">
+            <h2>Outline / AI Workspace</h2>
+            <button id="toggleRightPanelBtn" class="panel-toggle-btn" title="Collapse / expand right panel">⇥</button>
+          </div>
+          <div class="toolbar-row">
+            <select id="generationLang">
+              <option value="zh">中文</option>
+              <option value="en">English</option>
+            </select>
+            <button id="generateDraftBtn">Generate Outline Draft</button>
+          </div>
+        </div>
+
+        <div class="right-sections">
+          <article>
+            <h3>Highlights (All docs in workspace)</h3>
+            <ul id="highlightsList" class="flat-list"></ul>
+          </article>
+          <article>
+            <h3>Notes (Cross-document)</h3>
+            <ul id="notesList" class="flat-list"></ul>
+          </article>
+          <article>
+            <h3>Generated Outline / Article Draft (Editable)</h3>
+            <textarea id="generatedDraft" rows="14" placeholder="Draft appears here and stays editable..."></textarea>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <template id="workspaceItemTpl">
+      <li class="workspace-item">
+        <div class="workspace-title-row">
+          <button class="workspace-name-btn"></button>
+          <button class="danger delete-workspace-btn">Delete</button>
+        </div>
+        <ul class="doc-list"></ul>
+      </li>
+    </template>
+
+    <template id="docItemTpl">
+      <li class="doc-item">
+        <button class="doc-open-btn"></button>
+        <button class="danger delete-doc-btn">✕</button>
+      </li>
+    </template>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
