@@ -53,3 +53,38 @@ All data is persisted in browser `localStorage` keys:
 - `ai_reader_workspace_v1` for workspace and document data
 - `ai_reader_theme_v1` for theme mode
 - `ai_reader_layout_v1` for panel widths and collapsed states
+
+
+## Testing
+
+```bash
+npm test
+```
+
+(Uses Node built-in test runner to validate theme normalization, draft generation, and layout-width computation.)
+
+
+## React + TypeScript Next Step (new)
+
+A new React/Vite/TypeScript implementation now lives in `react-app/`.
+
+### Run React app
+
+```bash
+cd react-app
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`.
+
+### Tests (React app)
+
+```bash
+cd react-app
+npm test
+npm run build
+npm run e2e
+```
+
+> The root static files (`index.html`, `app.js`, `styles.css`) are intentionally preserved as regression baseline.
