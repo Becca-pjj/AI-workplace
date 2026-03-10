@@ -1,0 +1,26 @@
+type Props = {
+  docTitle: string;
+  html: string;
+  onSaveHtml: (html: string) => void;
+  onHighlight: (selectedText: string, addNote: boolean) => void;
+};
+
+export function CenterPanel({ docTitle, html, onSaveHtml, onHighlight }: Props) {
+  return (
+    <section className="panel">
+      <div className="panel-header"><h2>Reader</h2><p>{docTitle || 'No document selected'}</p></div>
+      <div
+        id="reader"
+        className="reader"
+        contentEditable
+        suppressContentEditableWarning
+        onInput={(e) => onSaveHtml((e.target as HTMLDivElement).innerHTML)}
+        dangerouslySetInnerHTML={{ __html: html || 'Select or add document.' }}
+      />
+      <div className="controls">
+        <button id="highlightBtn" onClick={() => onHighlight(window.getSelection()?.toString() || '', false)}>Highlight Selection</button>
+        <button id="noteSelectionBtn" onClick={() => onHighlight(window.getSelection()?.toString() || '', true)}>Selection → Note</button>
+      </div>
+    </section>
+  );
+}
